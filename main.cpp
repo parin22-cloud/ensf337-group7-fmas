@@ -1,3 +1,6 @@
+// main.cpp
+// ENSF 337 Term Project - Group 7
+
 // Create the program entry point in this file.
 //
 // Your main function should:

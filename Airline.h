@@ -1,3 +1,6 @@
+// Airline.h
+// ENSF 337 Term Project - Group 7
+
 // Declare the Airline class in this file.
 //
 // Store the collection of Flight objects.
