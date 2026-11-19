@@ -1,3 +1,6 @@
+// Flight.h
+// ENSF 337 Term Project - Group 7
+
 // Declare the Flight class in this file.
 //
 // Add the flight information shown in the project class diagram.
