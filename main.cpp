@@ -13,14 +13,42 @@
 #include <iostream>
 #include <string>
 #include <limits>
+#include <cctype>
+#include "Flight.h"
+#include "Passenger.h"
 
-void pressReturn(){
+void pressReturn()
+{
     std::cout << "<<< Press Return to Continue>>>>";
-    std::string inputGarbage;
-    std::getline(std::cin, inputGarbage);
+    std::string input_garbage;
+    std::getline(std::cin, input_garbage);
 }
 
-int main(){
+int readInt()
+{
+    int value;
+    std::cin >> value;
+    if (std::cin.fail())
+    {
+        std::cin.clear();
+        value = -1;
+    }
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    return value;
+}
+
+bool flightSelected(int selected_flight)
+{
+    if (selected_flight == -1)
+    {
+        std::cout << "Please select a flight first (option 2).\n";
+        return false;
+    }
+    return true;
+}
+
+int main()
+{
 
     std::cout << "FMAS Version: 1.0\n";
     std::cout << "Term Project - Flight Management Application System\n";
@@ -29,7 +57,10 @@ int main(){
     pressReturn();
 
     int choice;
-    do {
+    int selected_flight = -1;
+
+    do
+    {
         std::cout << "\nPlease select one of the following options:\n\n";
         std::cout << "  1. Display all flights.\n";
         std::cout << "  2. Select a flight.\n";
@@ -39,59 +70,182 @@ int main(){
         std::cout << "  6. Remove an Existing Passenger.\n";
         std::cout << "  7. Save data.\n";
         std::cout << "  8. Quit.\n\n";
-        std::cout << "Enter your choice: (1, 2, 3, 4, 5, 6, 7, or 8) "; 
-        std::cin >> choice;
-        if (std::cin.fail()){
-            std::cin.clear();
-        }
-
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Enter your choice: (1, 2, 3, 4, 5, 6, 7, or 8) ";
+        choice = readInt();
 
         switch (choice)
 
         {
         case 1:
+        {
             std::cout << "Option 1 not done yet.\n";
             pressReturn();
             break;
+        }
+
         case 2:
-            std::cout << "Option 2 not done yet.\n";
+        {
+            std::cout << "Enter the flight number: ";
+            int flight_number = readInt();
+
+            if (flight_number == -1)
+            {
+                std::cout << "Invalid flight number.\n";
+            }
+            else
+            {
+                selected_flight = flight_number;
+                std::cout << "You picked flight " << flight_number << ".\n";
+            }
+
             pressReturn();
             break;
+        }
+
         case 3:
+        {
+            if (!flightSelected(selected_flight))
+            {
+                pressReturn();
+                break;
+            }
             std::cout << "Option 3 not done yet.\n";
             pressReturn();
             break;
+        }
+
         case 4:
+        {
+            if (!flightSelected(selected_flight))
+            {
+                pressReturn();
+                break;
+            }
             std::cout << "Option 4 not done yet.\n";
             pressReturn();
             break;
+        }
+
         case 5:
-            std::cout << "Option 5 not done yet.\n";
-            break;
-        case 6:
-            std::cout << "Option 6 not done yet.\n";
-            pressReturn();
-            break;
-        case 7:
-            std::cout << "Option 7 not done yet.\n";
-            pressReturn();
-            break;
-        case 8:
-            std::cout << "Program terminated.\n";
-            break;
-        
-        default:
-            std::cout << "Invalid Choice.\n";
-            pressReturn();    
+        {
+            if (!flightSelected(selected_flight))
+            {
+                pressReturn();
+                break;
+            }
+
+            std::cout << "Please enter the passenger id: ";
+            int id = readInt();
+            if (id <= 0)
+            {
+                std::cout << "Invalid passenger ID.\n";
+                pressReturn();
+                break;
+            }
+
+            std::string first, last, phone;
+            std::cout << "Please enter the passenger first name: ";
+            std::cin >> first;
+            std::cout << "Please enter the passenger last name: ";
+            std::cin >> last;
+            std::cout << "Please enter the passenger phone number: ";
+            std::cin >> phone;
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+            std::cout << "Enter the passenger's desired row: ";
+            int row = readInt();
+            if (row <= 0)
+            {
+                std::cout << "Invalid row.\n";
+                pressReturn();
+                break;
+            }
+
+            std::cout << "Enter the passenger's desired seat: ";
+            char seat;
+            std::cin >> seat;
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            seat = std::toupper(static_cast<unsigned char>(seat));
+
+            // TODO once Airline/Flight are merged:
+            // if (airline.idExists(id))  -> "Passenger ID already exists."
+            // else flight.addPassenger(Passenger(id, first, last, phone, row, seat));
+            std::cout  << "Passenger " << first << " " << last
+                       << " was added to flight " << "FLIGHT_CODE" << ".\n";
+
             break;
         }
-    } while(choice!= 8);
 
+        case 6:
+        {
+            if (!flightSelected(selected_flight))
+            {
+                pressReturn();
+                break;
+            }
+            std::cout << "Please enter the id of the passenger that needs to be removed: ";
+            int passenger_id = readInt();
 
+            if (passenger_id == -1)
+            {
+                std::cout << "Invalid passenger ID.\n";
+            }
+            else
+            {
+                std::cout << "Would remove passenger " << passenger_id << ".\n";
+            }
 
+            pressReturn();
+            break;
+        }
 
+        case 7:
+        {
+            char save_answer;
+            while (true)
+            {
+                std::cout << "Save the updated passenger data to passengers.txt? (Y or N) ";
+                std::cin >> save_answer;
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                save_answer = std::toupper(static_cast<unsigned char>(save_answer));
+                if (save_answer == 'Y' || save_answer == 'N')
+                    break;
+                std::cout << "Invalid response. Please enter Y or N.\n";
+            }
 
+            if (save_answer == 'Y')
+            {
+                // TODO: uncomment once Airline is merged
+                // std::string error;
+                // if (airline.savePassengerData("passengers.txt", error))
+                //     std::cout << "All the data in the passenger list was saved into passengers.txt.\n";
+                // else
+                //     std::cout << "Error: " << error << '\n';
+                std::cout << "Would save now.\n";
+            }
+            else
+            {
+                std::cout << "Changes were not saved.\n";
+            }
 
-    return 0; 
-}   
+            pressReturn();
+            break;
+        }
+
+        case 8:
+        {
+            std::cout << "Program terminated.\n";
+            break;
+        }
+
+        default:
+        {
+            std::cout << "Invalid Choice.\n";
+            pressReturn();
+            break;
+        }
+        }
+    } while (choice != 8);
+
+    return 0;
+}
