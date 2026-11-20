@@ -14,19 +14,23 @@
 #include <string>
 #include <limits>
 
+void pressReturn(){
+    std::cout << "<<< Press Return to Continue>>>>";
+    std::string inputGarbage;
+    std::getline(std::cin, inputGarbage);
+}
+
 int main(){
 
     std::cout << "FMAS Version: 1.0\n";
     std::cout << "Term Project - Flight Management Application System\n";
     std::cout << "Produced by group: 7\n";
     std::cout << "Names: Parin Patel, Agastya Parashar, Aditya Patel\n\n";
-    std::cout << "<<< Press Return to Continue>>>>\n";
-    std::string Garb;
-    std::getline(std::cin, Garb);
+    pressReturn();
 
     int choice;
     do {
-        std::cout << "Please select one of the following options:\n\n";
+        std::cout << "\nPlease select one of the following options:\n\n";
         std::cout << "  1. Display all flights.\n";
         std::cout << "  2. Select a flight.\n";
         std::cout << "  3. Display Flight Seat Map.\n";
@@ -37,9 +41,52 @@ int main(){
         std::cout << "  8. Quit.\n\n";
         std::cout << "Enter your choice: (1, 2, 3, 4, 5, 6, 7, or 8) "; 
         std::cin >> choice;
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    } while(choice!= 8);
+        if (std::cin.fail()){
+            std::cin.clear();
+        }
 
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        switch (choice)
+
+        {
+        case 1:
+            std::cout << "Option 1 not done yet.\n";
+            pressReturn();
+            break;
+        case 2:
+            std::cout << "Option 2 not done yet.\n";
+            pressReturn();
+            break;
+        case 3:
+            std::cout << "Option 3 not done yet.\n";
+            pressReturn();
+            break;
+        case 4:
+            std::cout << "Option 4 not done yet.\n";
+            pressReturn();
+            break;
+        case 5:
+            std::cout << "Option 5 not done yet.\n";
+            break;
+        case 6:
+            std::cout << "Option 6 not done yet.\n";
+            pressReturn();
+            break;
+        case 7:
+            std::cout << "Option 7 not done yet.\n";
+            pressReturn();
+            break;
+        case 8:
+            std::cout << "Program terminated.\n";
+            break;
+        
+        default:
+            std::cout << "Invalid Choice.\n";
+            pressReturn();    
+            break;
+        }
+    } while(choice!= 8);
 
 
 
