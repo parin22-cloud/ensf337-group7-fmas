@@ -58,6 +58,8 @@ int main()
 
     int choice;
     int selected_flight = -1;
+    std::string flight_file = "flights.txt";
+    std::string passenger_file = "passengers.txt";
 
     do
     {
@@ -204,7 +206,7 @@ int main()
             char save_answer;
             while (true)
             {
-                std::cout << "Save the updated passenger data to passengers.txt? (Y or N) ";
+                std::cout << "Save the updated passenger data to " << passenger_file << "? (Y or N) ";                
                 std::cin >> save_answer;
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 save_answer = std::toupper(static_cast<unsigned char>(save_answer));
@@ -217,8 +219,7 @@ int main()
             {
                 // TODO: uncomment once Airline is merged
                 // std::string error;
-                // if (airline.savePassengerData("passengers.txt", error))
-                //     std::cout << "All the data in the passenger list was saved into passengers.txt.\n";
+                // if (airline.savePassengerData(passenger_file, error))                //     std::cout << "All passenger data was saved successfully.\n";
                 // else
                 //     std::cout << "Error: " << error << '\n';
                 std::cout << "Would save now.\n";
