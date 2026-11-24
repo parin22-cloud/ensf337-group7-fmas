@@ -10,6 +10,7 @@
 
 #include "Flight.h"
 #include <iostream>
+#include <iomanip>
 
 Flight::Flight(const std::string& code,
                const std::string& from,
@@ -31,11 +32,13 @@ int Flight::getNumberOfRows() const { return number_of_rows; }
 int Flight::getSeatsPerRow() const { return seats_per_row; }
 const std::vector<Passenger>& Flight::getPassengers() const { return passengers; }
 
-// ---------- you write these ----------
 
 bool Flight::hasPassenger(int id) const
 {
-    // TODO
+    for (const Passenger& p : passengers){
+        if (p.getId() == id)
+            return true;
+    }
     return false;
 }
 
@@ -46,7 +49,25 @@ void Flight::displaySeatMap() const
 
 void Flight::displayPassengers() const
 {
-    // TODO
+    std::cout << "\nPassenger List (Flight: " << flight_code << " from "
+              << origin << " to " << destination << ")\n\n";
+
+    std::cout << "ID      First Name   Last Name    Phone           Row   Seat\n";
+    std::cout << std::string(61, '-') << '\n';
+
+    // one passenger per line, padded so the columns line up
+    for (const Passenger& p : passengers)
+    {
+        std::cout << std::left
+                  << std::setw(8) << p.getId()
+                  << std::setw(13) << p.getFirstName()
+                  << std::setw(13) << p.getLastName()
+                  << std::setw(16) << p.getPhoneNumber()
+                  << std::setw(6) << p.getSeatRow()
+                  << p.getSeatLetter() << '\n';
+    }
+
+    std::cout << std::string(61, '-') << '\n';
 }
 
 bool Flight::addPassenger(const Passenger& p, std::string& error_message)
@@ -57,6 +78,13 @@ bool Flight::addPassenger(const Passenger& p, std::string& error_message)
 
 bool Flight::removePassenger(int id, std::string& error_message)
 {
-    // TODO
+    for (size_t i = 0; i<passengers.size(); i++){
+        if (passengers[i].getId() == id){
+            std::cout << "\nPassenger " << passengers[i].getFirstName() << " " << passengers[i].getLastName()
+                      << " was successfully removed from flight " << flight_code << ".\n";
+            passengers.erase(passengers.begin()+i);
+            return true;}
+    }
+    error_message =  "Passenger ID not found on this flight.";
     return false;
 }
