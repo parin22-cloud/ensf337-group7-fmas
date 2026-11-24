@@ -1,0 +1,2 @@
+AC568 Calgary Regina 7 3
+WS219 Calgary Winnipeg 5 2
