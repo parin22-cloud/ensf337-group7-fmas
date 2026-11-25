@@ -15,10 +15,9 @@ private:
     std::string destination;
     int number_of_rows;
     int seats_per_row;
-    std::vector<Passenger> passengers;   // everyone booked on this flight
+    std::vector<Passenger> passengers;
 
 public:
-    // starts with no passengers, Airline adds them while loading
     Flight(const std::string& code,
            const std::string& from,
            const std::string& to,
@@ -32,13 +31,11 @@ public:
     int getSeatsPerRow() const;
     const std::vector<Passenger>& getPassengers() const;   // used when saving
 
-    // true if a passenger with this id is on this flight
     bool hasPassenger(int id) const;
 
     void displaySeatMap() const;
     void displayPassengers() const;
 
-    // return true if it worked, otherwise error_message says why
     bool addPassenger(const Passenger& p, std::string& error_message);
     bool removePassenger(int id, std::string& error_message);
 };

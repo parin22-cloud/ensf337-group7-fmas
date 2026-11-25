@@ -28,7 +28,6 @@ public:
                 int row,
                 char letter
             );
-        //These all get the passenge info individually.
         int getId() const;
 
         std::string getFirstName() const;
@@ -41,7 +40,6 @@ public:
         
         char getSeatLetter() const;
 
-        // This prints the passenger's info as a whole.
         void print() const;
 
 };
