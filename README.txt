@@ -17,7 +17,7 @@ Keep all of these in the same folder and run the program from that folder.
 Windows
 -------
 Compile:
-g++ -std=c++17 -Wall -Wextra main.cpp Airline.cpp Flight.cpp Passenger.cpp FileRecordIO.cpp -o fmas.exe
+g++ -std=c++17 -Wall -Wextra -static main.cpp Airline.cpp Flight.cpp Passenger.cpp FileRecordIO.cpp -o fmas.exe
 
 Run:
 .\fmas.exe

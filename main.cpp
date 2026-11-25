@@ -28,6 +28,9 @@ int readInt()
 {
     int value;
     std::cin >> value;
+    if(std::cin.eof()){
+        return 8;
+    }
     if (std::cin.fail())
     {
         std::cin.clear();
@@ -206,7 +209,7 @@ int main()
             char save_answer;
             while (true)
             {
-                std::cout << "Save the updated passenger data to " << passenger_file << "? (Y or N) ";                
+                std::cout << "Save the updated passenger data to " << passenger_file << "? (Y or N) ";
                 std::cin >> save_answer;
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 save_answer = std::toupper(static_cast<unsigned char>(save_answer));
@@ -219,7 +222,8 @@ int main()
             {
                 // TODO: uncomment once Airline is merged
                 // std::string error;
-                // if (airline.savePassengerData(passenger_file, error))                //     std::cout << "All passenger data was saved successfully.\n";
+                // if (airline.savePassengerData(passenger_file, error))                
+                //     std::cout << "All passenger data was saved successfully.\n";
                 // else
                 //     std::cout << "Error: " << error << '\n';
                 std::cout << "Would save now.\n";
