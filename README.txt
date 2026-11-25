@@ -1,24 +1,44 @@
-ENSF 337 Term Project Starter Files
+FMAS - Flight Management Application System
+ENSF 337 Term Project, Fall 2026
+Group 7: Parin Patel, Agastya Parashar, Aditya Patel
 
-The supplied FileRecordIO files contain the C++ stream operations required to
-read the flight and passenger records and to write passenger records. The
-remaining Airline, Flight, Passenger, menu and seat-map work is not
-implemented for you.
 
-Comment-only files for main, Airline, Flight and Passenger are included to show
-the expected multi-file structure. Complete those files as part of the project.
+Files
+-----
+Source files: main.cpp, Airline.h, Airline.cpp, Flight.h, Flight.cpp,
+Passenger.h, Passenger.cpp, FileRecordIO.h, FileRecordIO.cpp
 
-Use readFlightRecords and readPassengerRecords from Airline::loadData. Convert
-the returned records into your Flight and Passenger objects. When saving, build
-a vector of PassengerRecord values from all flights and pass it to
-writePassengerRecords.
+Data files: flights.txt and passengers.txt (given input set)
+            flights_test2.txt and passengers_test2.txt (our test set)
 
-The supplied flights.txt and passengers.txt form the first input set.
+Keep all of these in the same folder and run the program from that folder.
 
-Your team must create flights_test2.txt and passengers_test2.txt. The second
-set must use different values, contain at least two valid flights and at least
-four valid passengers across at least two flights, and contain no duplicate
-passenger IDs or duplicate occupied seats on the same flight.
 
-Your finished program must work with either pair by changing only the filenames
-passed to the loading functions. Do not hard-code records from either input set.
+Windows
+-------
+Compile:
+g++ -std=c++17 -Wall -Wextra -static main.cpp Airline.cpp Flight.cpp Passenger.cpp FileRecordIO.cpp -o fmas.exe
+
+Run:
+.\fmas.exe
+
+
+macOS
+-----
+If clang++ is not installed, run this first:
+xcode-select --install
+
+Compile:
+clang++ -std=c++17 -Wall -Wextra main.cpp Airline.cpp Flight.cpp Passenger.cpp FileRecordIO.cpp -o fmas
+
+Run:
+./fmas
+
+
+Using the second input set
+--------------------------
+By default the program loads flights.txt and passengers.txt. To use our
+test set, change the two filenames in main.cpp to flights_test2.txt and
+passengers_test2.txt, then compile and run again.
+
+Note: option 7 (Save data) overwrites the passenger file that was loaded.
