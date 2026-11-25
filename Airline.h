@@ -30,7 +30,7 @@ class Airline{
 
         Flight* findFlight(const std::string& flight_number);
 
-        Flight* getFlightNumber(int number);
+        Flight* findFlight(int number);
 
         bool passengerIdExists(int passengerId) const;
         

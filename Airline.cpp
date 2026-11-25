@@ -14,7 +14,7 @@
 #include "Flight.h"
 
 
-Flight* Airline::getFlightNumber(int number)
+Flight* Airline::findFlight(int number)
 {
     if (number < 1 || number > static_cast<int>(flights.size()))
     {
@@ -106,9 +106,12 @@ bool Airline::loadData(const std::string& flight_file, const std::string& passen
             passenger_information[i].seat_letter
         );
 
-        if (!selected_flight->addPassenger(new_passenger))
+        std::string add_error;
+        if (!selected_flight->addPassenger(new_passenger,add_error))
         {
+            error_message = "Invalid passenger record: " + add_error;
             return false;
+
         }
     }
     return true;
