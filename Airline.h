@@ -13,7 +13,6 @@
 
 #include <string>
 #include <vector>
-#include "FileRecordIO.h"
 #include "Flight.h"
 
 class Airline{
@@ -22,12 +21,19 @@ class Airline{
         std::string name;
 
     public:
+        // Displays all the flights
         void displayFlights() const;
         
-        bool load_Data(const std::string& flight_flie, const std::string& passenger_file);
+        bool loadData(const std::string& flight_file, const std::string& passenger_file);
 
-        bool save_Passenger_Data(const std::string& passenger_data_file)
+        bool savePassengerData(const std::string& passenger_data_file);
 
         Flight* findFlight(const std::string& flight_number);
 
+        Flight* getFlightNumber(int number);
+
+        bool passengerIdExists(int passengerId) const;
+        
 };
+
+#endif
