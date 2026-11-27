@@ -14,12 +14,11 @@
 #include <string>
 #include <limits>
 #include <cctype>
-#include "Flight.h"
-#include "Passenger.h"
+#include "Airline.h"
 
 void pressReturn()
 {
-    std::cout << "<<< Press Return to Continue>>>>";
+    std::cout << "\n<<< Press Return to Continue>>>>";
     std::string input_garbage;
     std::getline(std::cin, input_garbage);
 }
@@ -28,7 +27,8 @@ int readInt()
 {
     int value;
     std::cin >> value;
-    if(std::cin.eof()){
+    if (std::cin.eof())
+    {
         return 8;
     }
     if (std::cin.fail())
@@ -40,9 +40,9 @@ int readInt()
     return value;
 }
 
-bool flightSelected(int selected_flight)
+bool flightSelected(Flight *selected_flight)
 {
-    if (selected_flight == -1)
+    if (selected_flight == nullptr)
     {
         std::cout << "Please select a flight first (option 2).\n";
         return false;
@@ -56,13 +56,22 @@ int main()
     std::cout << "FMAS Version: 1.0\n";
     std::cout << "Term Project - Flight Management Application System\n";
     std::cout << "Produced by group: 7\n";
-    std::cout << "Names: Parin Patel, Agastya Parashar, Aditya Patel\n\n";
+    std::cout << "Names: Parin Patel, Agastya Parashar, Aditya Patel\n";
     pressReturn();
 
     int choice;
-    int selected_flight = -1;
+    Flight *selected_flight = nullptr;
+    ;
     std::string flight_file = "flights.txt";
     std::string passenger_file = "passengers.txt";
+
+    Airline airline;
+
+    if (!airline.loadData(flight_file, passenger_file))
+    {
+        std::cout << "Could not load the data files.";
+        return -1;
+    }
 
     do
     {
@@ -83,7 +92,7 @@ int main()
         {
         case 1:
         {
-            std::cout << "Option 1 not done yet.\n";
+            airline.displayFlights();
             pressReturn();
             break;
         }
@@ -99,8 +108,18 @@ int main()
             }
             else
             {
-                selected_flight = flight_number;
-                std::cout << "You picked flight " << flight_number << ".\n";
+                Flight *found = airline.findFlight(flight_number);
+                if (found == nullptr)
+                {
+                    std::cout << "Invalid flight number.\n";
+                }
+                else
+                {
+                    selected_flight = found;
+                    std::cout << "You have selected flight " << found->getFlightCode()
+                              << " from " << found->getOrigin()
+                              << " to " << found->getDestination() << ".\n";
+                }
             }
 
             pressReturn();
@@ -114,7 +133,7 @@ int main()
                 pressReturn();
                 break;
             }
-            std::cout << "Option 3 not done yet.\n";
+            selected_flight->displaySeatMap();
             pressReturn();
             break;
         }
@@ -126,7 +145,7 @@ int main()
                 pressReturn();
                 break;
             }
-            std::cout << "Option 4 not done yet.\n";
+            selected_flight->displayPassengers();
             pressReturn();
             break;
         }
@@ -144,6 +163,13 @@ int main()
             if (id <= 0)
             {
                 std::cout << "Invalid passenger ID.\n";
+                pressReturn();
+                break;
+            }
+
+            if (airline.passengerIdExists(id))
+            {
+                std::cout << "Passenger ID already exists.\n";
                 pressReturn();
                 break;
             }
@@ -172,11 +198,18 @@ int main()
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             seat = std::toupper(static_cast<unsigned char>(seat));
 
-            // TODO once Airline/Flight are merged:
-            // if (airline.idExists(id))  -> "Passenger ID already exists."
-            // else flight.addPassenger(Passenger(id, first, last, phone, row, seat));
-            std::cout  << "Passenger " << first << " " << last
-                       << " was added to flight " << "FLIGHT_CODE" << ".\n";
+            Passenger new_passenger(id, first, last, phone, row, seat);
+            std::string error;
+            if (selected_flight->addPassenger(new_passenger, error))
+            {
+                std::cout << "Passenger " << first << " " << last
+                          << " was added to flight " << selected_flight->getFlightCode() << ".\n";
+            }
+            else
+            {
+                std::cout << error << '\n';
+                pressReturn();
+            }
 
             break;
         }
@@ -197,7 +230,11 @@ int main()
             }
             else
             {
-                std::cout << "Would remove passenger " << passenger_id << ".\n";
+                std::string error;
+                if (!selected_flight->removePassenger(passenger_id, error))
+                {
+                    std::cout << error << '\n';
+                }
             }
 
             pressReturn();
@@ -220,13 +257,8 @@ int main()
 
             if (save_answer == 'Y')
             {
-                // TODO: uncomment once Airline is merged
-                // std::string error;
-                // if (airline.savePassengerData(passenger_file, error))                
-                //     std::cout << "All passenger data was saved successfully.\n";
-                // else
-                //     std::cout << "Error: " << error << '\n';
-                std::cout << "Would save now.\n";
+                if (airline.savePassengerData(passenger_file))
+                    std::cout << "All passenger data was saved successfully.\n";
             }
             else
             {
